@@ -14,7 +14,7 @@ public class GameController : MonoBehaviour
     IEnumerator rightCoroutine, leftCoroutine;
     GameState state;
     GameState? savedState = null;
-    bool movementEnabled = false;
+    bool fallRateReset = false;
 
     void Start()
     {
@@ -87,7 +87,7 @@ public class GameController : MonoBehaviour
     }
     void HandleMovement()
     {
-        movementEnabled = true;
+        fallRateReset = false;
         // rotation
         if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
             if (TryRotateFallingBlock())
@@ -124,9 +124,11 @@ public class GameController : MonoBehaviour
     {
         if(rightCoroutine!=null) StopCoroutine(rightCoroutine);
         if(leftCoroutine!=null) StopCoroutine(leftCoroutine);
-        if (movementEnabled && (Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.DownArrow)))
+        if (!fallRateReset && (Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.DownArrow)))
+        {
             fallRate /= 10f;
-        movementEnabled = false;
+            fallRateReset = true;
+        }
     }
 
     IEnumerator Movement(int v1, int v2, float customRate = 0)
