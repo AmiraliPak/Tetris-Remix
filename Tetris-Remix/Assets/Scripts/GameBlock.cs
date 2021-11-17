@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
@@ -33,6 +33,13 @@ public abstract class GameBlock
                 if(grid[i, j] != null)
                     result.Add((i, j));
         return result;
+    }
+
+    public void SetCombo(Combo combo)
+    {
+        var randomPoint = ToList()[UnityEngine.Random.Range(0, 3)];
+        var randomCell = this[randomPoint.Item1, randomPoint.Item2];
+        randomCell.SetCombo(combo);
     }
 
     static public GameBlock GetRandomBlock()

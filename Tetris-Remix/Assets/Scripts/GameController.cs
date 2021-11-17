@@ -15,14 +15,18 @@ public class GameController : MonoBehaviour
     GameState state;
     GameState? savedState = null;
     bool fallRateReset = false;
+    ComboController comboController;
 
     void Start()
     {
         grid = new Grid(GRID_HEIGHT, GRID_WIDTH);
+
+        comboController = GameObject.Find("ComboController").GetComponent<ComboController>();
+        comboController.SetGrid(grid);
+
         fallRate = InitialMoveRate;
         state = GameState.DropingNextBlock;
     }
-
     void Update()
     {
         switch (state)
@@ -33,6 +37,7 @@ public class GameController : MonoBehaviour
                 var success = TryDropNextBlock();
                 if (success)
                 {
+                    fallingBlock.SetCombo(new ExplosiveCombo());
                     StartCoroutine(Movement(1, 0));
                     state = GameState.BlockFalling;
                 }
@@ -46,12 +51,19 @@ public class GameController : MonoBehaviour
 
             case GameState.BlockBeingPlaced:
                 DisableMovement();
-                grid.RemoveFullRows(
-                    fallingBlockPosition.Item1,
-                    fallingBlockPosition.Item1 + fallingBlock.GetLength(0)
-                    );
-                grid.Show();
-                state = GameState.DropingNextBlock;
+                var fullRows = 
+                    grid.FindFullRows(
+                        fallingBlockPosition.Item1,
+                        fallingBlockPosition.Item1 + fallingBlock.GetLength(0)
+                        );
+                comboController.ManageFullRows(fullRows);
+                state = GameState.ComboController;
+                break;
+            
+            case GameState.ComboController:
+                DisableMovement();
+                if(!comboController.PostActivate)
+                    state = GameState.DropingNextBlock;
                 break;
 
             case GameState.GameOver:
@@ -199,5 +211,5 @@ public class GameController : MonoBehaviour
 
 public enum GameState
 {
-    BlockFalling, BlockBeingPlaced, DropingNextBlock, GameOver, Pause
+    BlockFalling, BlockBeingPlaced, DropingNextBlock, GameOver, Pause, ComboController
 }
