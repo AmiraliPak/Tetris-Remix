@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
@@ -68,6 +68,17 @@ public class IBlock: GameBlock
             {cells[1]},
             {cells[2]},
             {cells[3]}
+        });
+        rotations.Add(new GridCell[,]
+        {
+            {cells[3], cells[2], cells[1], cells[0]}
+        });
+        rotations.Add(new GridCell[,]
+        {
+            {cells[3]},
+            {cells[2]},
+            {cells[1]},
+            {cells[0]}
         });
         rotations.Add(new GridCell[,]
         {
@@ -158,6 +169,21 @@ public class OBlock: GameBlock
             {cells[0], cells[1]},
             {cells[3], cells[2]}
         });
+        rotations.Add(new GridCell[,]
+        {
+            {cells[3], cells[0]},
+            {cells[2], cells[1]}
+        });
+        rotations.Add(new GridCell[,]
+        {
+            {cells[2], cells[3]},
+            {cells[1], cells[0]}
+        });
+        rotations.Add(new GridCell[,]
+        {
+            {cells[1], cells[2]},
+            {cells[0], cells[3]}
+        });
     }
 }
 
@@ -174,6 +200,17 @@ public class SBlock: GameBlock
         {
             {null,     cells[1], cells[0]},
             {cells[3], cells[2], null}
+        });
+        rotations.Add(new GridCell[,]
+        {
+            {cells[3], null},
+            {cells[2], cells[1]},
+            {null,     cells[0]}
+        });
+        rotations.Add(new GridCell[,]
+        {
+            {null,     cells[2], cells[3]},
+            {cells[0], cells[1], null}
         });
         rotations.Add(new GridCell[,]
         {
@@ -197,6 +234,17 @@ public class ZBlock: GameBlock
         {
             {cells[0], cells[1], null},
             {null,     cells[2], cells[3]}
+        });
+        rotations.Add(new GridCell[,]
+        {
+            {null,     cells[0]},
+            {cells[2], cells[1]},
+            {cells[3], null}
+        });
+        rotations.Add(new GridCell[,]
+        {
+            {cells[3], cells[2], null},
+            {null,     cells[1], cells[0]}
         });
         rotations.Add(new GridCell[,]
         {
