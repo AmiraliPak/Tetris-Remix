@@ -35,6 +35,13 @@ public abstract class GameBlock
         return result;
     }
 
+    public void SetCombo(Combo combo)
+    {
+        var randomPoint = ToList()[UnityEngine.Random.Range(0, 3)];
+        var randomCell = this[randomPoint.Item1, randomPoint.Item2];
+        randomCell.SetCombo(combo);
+    }
+
     static public GameBlock GetRandomBlock()
     {
         var rand = UnityEngine.Random.Range(1, 7);
@@ -68,6 +75,17 @@ public class IBlock: GameBlock
             {cells[1]},
             {cells[2]},
             {cells[3]}
+        });
+        rotations.Add(new GridCell[,]
+        {
+            {cells[3], cells[2], cells[1], cells[0]}
+        });
+        rotations.Add(new GridCell[,]
+        {
+            {cells[3]},
+            {cells[2]},
+            {cells[1]},
+            {cells[0]}
         });
         rotations.Add(new GridCell[,]
         {
@@ -158,6 +176,21 @@ public class OBlock: GameBlock
             {cells[0], cells[1]},
             {cells[3], cells[2]}
         });
+        rotations.Add(new GridCell[,]
+        {
+            {cells[3], cells[0]},
+            {cells[2], cells[1]}
+        });
+        rotations.Add(new GridCell[,]
+        {
+            {cells[2], cells[3]},
+            {cells[1], cells[0]}
+        });
+        rotations.Add(new GridCell[,]
+        {
+            {cells[1], cells[2]},
+            {cells[0], cells[3]}
+        });
     }
 }
 
@@ -174,6 +207,17 @@ public class SBlock: GameBlock
         {
             {null,     cells[1], cells[0]},
             {cells[3], cells[2], null}
+        });
+        rotations.Add(new GridCell[,]
+        {
+            {cells[3], null},
+            {cells[2], cells[1]},
+            {null,     cells[0]}
+        });
+        rotations.Add(new GridCell[,]
+        {
+            {null,     cells[2], cells[3]},
+            {cells[0], cells[1], null}
         });
         rotations.Add(new GridCell[,]
         {
@@ -197,6 +241,17 @@ public class ZBlock: GameBlock
         {
             {cells[0], cells[1], null},
             {null,     cells[2], cells[3]}
+        });
+        rotations.Add(new GridCell[,]
+        {
+            {null,     cells[0]},
+            {cells[2], cells[1]},
+            {cells[3], null}
+        });
+        rotations.Add(new GridCell[,]
+        {
+            {cells[3], cells[2], null},
+            {null,     cells[1], cells[0]}
         });
         rotations.Add(new GridCell[,]
         {

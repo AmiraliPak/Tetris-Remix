@@ -117,8 +117,9 @@ public class Grid
                     grid[i][j].Show(Height - i, j);
     }
 
-    public void RemoveFullRows(int fromRow, int toRow)
+    public List<int> FindFullRows(int fromRow, int toRow)
     {
+        var fullRows = new List<int>(toRow - fromRow + 1);
         if(toRow >= Height) toRow = Height - 1;
         for(int i = fromRow; i <= toRow; i++)
         {
@@ -128,7 +129,23 @@ public class Grid
                     isFull = false;
                     break;
                 }
-            if(isFull) RemoveRow(i);
+            if(isFull) fullRows.Add(i);
         }
+        return fullRows;
+    }
+
+    public void DestroyCell(int row, int col)
+    {
+        grid[row][col].Destroy();
+        grid[row][col] = null;
+    }
+
+    public void SubsideColumn(int col, int baseRow, int amount)
+    {
+        for(int row = baseRow; row >= 0; row--)
+            grid[row + amount][col] = grid[row][col];
+        
+        for (int row = 0; row < amount; row++)
+            grid[row][col] = null;
     }
 }
