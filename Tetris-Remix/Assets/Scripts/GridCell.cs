@@ -8,6 +8,14 @@ public class GridCell
     static GameObject gridCellObject = Resources.Load("Prefabs/GridCell") as GameObject;
     Combo combo;
     GameObject cellBlock;
+    public Transform transform 
+    {
+        get 
+        {
+            if(cellBlock == null) return null;
+            else return cellBlock.transform;
+        } 
+    }
     Color color;
     public int x { get; private set; }
     public int y { get; private set; }
