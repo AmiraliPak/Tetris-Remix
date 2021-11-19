@@ -29,6 +29,8 @@ public class GameController : MonoBehaviour
     }
     void Update()
     {
+        if(fallRate < InitialMoveRate) fallRate *= 10;
+
         switch (state)
         {
             case GameState.DropingNextBlock:
@@ -37,7 +39,7 @@ public class GameController : MonoBehaviour
                 var success = TryDropNextBlock();
                 if (success)
                 {
-                    fallingBlock.SetCombo(new ExplosiveCombo());
+                    comboController.SetRandomCombo(fallingBlock);
                     StartCoroutine(Movement(1, 0));
                     state = GameState.BlockFalling;
                 }
@@ -101,35 +103,35 @@ public class GameController : MonoBehaviour
     {
         fallRateReset = false;
         // rotation
-        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.W))
             if (TryRotateFallingBlock())
                 grid.Show();
         // move right
-        if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKeyDown(KeyCode.D))
         {
             rightCoroutine = Movement(0, 1, 10 * InitialMoveRate);
             StartCoroutine(rightCoroutine);
         }
-        if (Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.RightArrow))
+        if (Input.GetKeyUp(KeyCode.D))
         {
             StopCoroutine(rightCoroutine);
             rightCoroutine = null;
         }
         // move left
-        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKeyDown(KeyCode.A))
         {
             leftCoroutine = Movement(0, -1, 10 * InitialMoveRate);
             StartCoroutine(leftCoroutine);
         }
-        if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.LeftArrow))
+        if (Input.GetKeyUp(KeyCode.A))
         {
             StopCoroutine(leftCoroutine);
             leftCoroutine = null;
         }
         // fast drop
-        if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetKeyDown(KeyCode.S))
             fallRate *= 10f;
-        if (Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.DownArrow))
+        if (Input.GetKeyUp(KeyCode.S))
             fallRate /= 10f;
     }
     void DisableMovement()

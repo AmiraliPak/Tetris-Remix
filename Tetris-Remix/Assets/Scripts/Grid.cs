@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -147,5 +148,52 @@ public class Grid
         
         for (int row = 0; row < amount; row++)
             grid[row][col] = null;
+    }
+
+    public GridCell GetHighestCell()
+    {
+        for(int row = 0; row < Height; row++)
+            for(int col = 0; col < Width; col++)
+                if(IsFilled(row, col))
+                    return grid[row][col];
+        return null;
+    }
+
+    public GridCell FindClosestCell(int row, int col, Func<int,int,bool> ValidatePoint)
+    {
+        var visited = new HashSet<(int, int)>();
+        Queue<(int,int)> queue = new Queue<(int,int)>();
+        queue.Enqueue((row, col));
+        visited.Add((row, col));
+        bool flag = false;
+        while(queue.Count != 0)
+        {
+            (row, col) = queue.Dequeue();
+            if(IsFilled(row, col) && flag)
+                return grid[row][col];
+            flag = true;
+
+            if(row-1 >= 0 && ValidatePoint(row-1,col) && !visited.Contains((row-1,col)))
+            {
+                queue.Enqueue((row - 1, col));
+                visited.Add((row-1, col));
+            }
+            if(row+1 < Height && ValidatePoint(row+1,col) && !visited.Contains((row+1,col)))
+            {
+                queue.Enqueue((row + 1, col));
+                visited.Add((row+1, col));
+            }
+            if(col-1 >= 0 && ValidatePoint(row,col-1) && !visited.Contains((row,col-1)))
+            {
+                queue.Enqueue((row, col-1));
+                visited.Add((row, col-1));
+            }
+            if(col+1 < Width && ValidatePoint(row,col+1) && !visited.Contains((row,col+1)))
+            {
+                queue.Enqueue((row, col+1));
+                visited.Add((row, col+1));
+            }
+        }
+        return null;
     }
 }
