@@ -5,7 +5,7 @@ public class SniperCombo : ShootingCombo
 {
     static GameObject labelObject = Resources.Load("Prefabs/SniperAmmoLabel") as GameObject;
     static GameObject gunObject = Resources.Load("Prefabs/Sniper") as GameObject;
-    const int AMMO_COUNT = 50;
+    const int AMMO_COUNT = 5;
 
     public SniperCombo() : base(AMMO_COUNT) { }
 
@@ -16,7 +16,7 @@ public class SniperCombo : ShootingCombo
 
     protected override GameObject InstantiateGun()
     {
-        return GameObject.Instantiate(gunObject, new Vector3(0, 0), Quaternion.identity);
+        return GameObject.Instantiate(gunObject);
     }
 
     protected override List<Combo> DestroyCell(GridCell cell, Grid grid)

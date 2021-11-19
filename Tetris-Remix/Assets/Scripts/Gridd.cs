@@ -87,7 +87,7 @@ public class Grid
         RemoveBlock(block);
         if(!TryPlaceBlock(block, toRow, toCol))
         {
-            Debug.Assert(TryPlaceBlock(block, fromRow, fromCol));
+            TryPlaceBlock(block, fromRow, fromCol);
             return false;
         }
         return true;
@@ -107,7 +107,6 @@ public class Grid
                 log += (IsFilled(i, j)) ? '0' : '.';
             log += '\n';
         }
-        Debug.Log(log);
     }
 
     public void Show()
@@ -195,5 +194,15 @@ public class Grid
             }
         }
         return null;
+    }
+
+    public void Destroy()
+    {
+        for(int i = 0; i < Height; i++)
+            for(int j = 0 ; j < Width; j++)
+            {
+                if(IsFilled(i,j))
+                    grid[i][j].Destroy();
+            }
     }
 }

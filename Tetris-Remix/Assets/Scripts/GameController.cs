@@ -1,9 +1,11 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
+    public GameObject gameOver;
+    public Text scoreText;
     public float InitialMoveRate;
     [SerializeField] float fallRate;
     const int GRID_HEIGHT = 20;
@@ -19,6 +21,11 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
+        gameOver.SetActive(false);
+        Time.timeScale = 1;
+        scoreText.text = "0";
+        EventSystem.OnCellDestroy.AddListener(() => scoreText.text = (int.Parse(scoreText.text) + 1).ToString());
+
         grid = new Grid(GRID_HEIGHT, GRID_WIDTH);
 
         comboController = GameObject.Find("ComboController").GetComponent<ComboController>();
@@ -75,6 +82,14 @@ public class GameController : MonoBehaviour
 
             case GameState.Pause:
                 DisableMovement();
+                break;
+
+            case GameState.Restart:
+                comboController.Cancel();
+                DisableMovement();
+                StopAllCoroutines();
+                grid.Destroy();
+                Start();
                 break;
         }
 
@@ -177,9 +192,8 @@ public class GameController : MonoBehaviour
     void EndGame()
     {
         grid.Show();
-        Debug.Log("GAME OVER!");
         Time.timeScale = 0;
-        // do something - retry menu?
+        gameOver.SetActive(true);
     }
 
     bool TryMoveFallingBlock(int addRow, int addCol)
@@ -203,15 +217,23 @@ public class GameController : MonoBehaviour
         if(!grid.TryPlaceBlock(fallingBlock, row, col))
         {
             fallingBlock.Rotate(toLeft: true);
-            Debug.Assert(grid.TryPlaceBlock(fallingBlock, row, col));
+            grid.TryPlaceBlock(fallingBlock, row, col);
             return false;
         }
         fallingBlockPosition = (row, col);
         return true;
     }
+
+    public void RestartGame()
+    {
+        state = GameState.Restart;
+        
+    }
+
+    public void QuitGame() => Application.Quit();
 }
 
 public enum GameState
 {
-    BlockFalling, BlockBeingPlaced, DropingNextBlock, GameOver, Pause, ComboController
+    BlockFalling, BlockBeingPlaced, DropingNextBlock, GameOver, Pause, ComboController, Restart
 }

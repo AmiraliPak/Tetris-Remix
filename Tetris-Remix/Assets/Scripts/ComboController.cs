@@ -70,4 +70,12 @@ public class ComboController : MonoBehaviour
         else if(rand == 3 || rand == 7)
             block.SetCombo(new SniperCombo());
     }
+
+    public void Cancel()
+    {
+        PostActivate = false;
+        UIText.text = "";
+        for(int i = 0; i < combos.Count; i++)
+            combos[i].Cancel();
+    }
 }

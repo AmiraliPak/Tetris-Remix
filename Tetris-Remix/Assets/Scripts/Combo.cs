@@ -12,6 +12,7 @@ public abstract class Combo
     
     public abstract void InstantiateCellLabel(Transform cellBlock);
     public abstract void SetUIText(Text text);
+    public virtual void Cancel() { }
 }
 
 public class ExplosiveCombo : Combo
