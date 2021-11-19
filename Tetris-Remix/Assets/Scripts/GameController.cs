@@ -83,6 +83,7 @@ public class GameController : MonoBehaviour
                 break;
 
             case GameState.Restart:
+                comboController.Cancel();
                 DisableMovement();
                 StopAllCoroutines();
                 grid.Destroy();
@@ -227,6 +228,8 @@ public class GameController : MonoBehaviour
         state = GameState.Restart;
         
     }
+
+    public void QuitGame() => Application.Quit();
 }
 
 public enum GameState

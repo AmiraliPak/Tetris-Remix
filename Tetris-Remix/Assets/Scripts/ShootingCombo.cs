@@ -154,4 +154,11 @@ public abstract class ShootingCombo : Combo
         textUI = text;
         text.text = "Move the target and press Space to shoot.\nRemaining Shots: " + totalAmmoCount;
     }
+
+    public override void Cancel() {
+        isDone = true;
+        totalAmmoCount = 0;
+        if(target!=null)GameObject.Destroy(target);
+        if(gun!=null)GameObject.Destroy(gun);
+     }
 }
