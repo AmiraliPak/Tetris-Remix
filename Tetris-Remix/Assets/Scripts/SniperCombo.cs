@@ -16,7 +16,7 @@ public class SniperCombo : ShootingCombo
 
     protected override GameObject InstantiateGun()
     {
-        return GameObject.Instantiate(gunObject, new Vector3(0, 0), Quaternion.identity);
+        return GameObject.Instantiate(gunObject);
     }
 
     protected override List<Combo> DestroyCell(GridCell cell, Grid grid)

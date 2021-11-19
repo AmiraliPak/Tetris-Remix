@@ -139,6 +139,8 @@ public abstract class ShootingCombo : Combo
             targetCell = nextCell;
             target.transform.SetParent(targetCell.transform, false);
         }
+
+        gun.transform.LookAt(target.transform);
     }
 
     protected abstract List<Combo> DestroyCell(GridCell cell, Grid grid); // returns preactivated combos to postactivate

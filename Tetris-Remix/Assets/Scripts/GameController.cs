@@ -21,6 +21,8 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
+        gameOver.SetActive(false);
+        Time.timeScale = 1;
         scoreText.text = "0";
         EventSystem.OnCellDestroy.AddListener(() => scoreText.text = (int.Parse(scoreText.text) + 1).ToString());
 
