@@ -196,4 +196,14 @@ public class Grid
         }
         return null;
     }
+
+    public void Destroy()
+    {
+        for(int i = 0; i < Height; i++)
+            for(int j = 0 ; j < Width; j++)
+            {
+                if(IsFilled(i,j))
+                    grid[i][j].Destroy();
+            }
+    }
 }

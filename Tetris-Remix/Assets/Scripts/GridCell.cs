@@ -54,6 +54,7 @@ public class GridCell
         if(cellBlock == null) return false;
         GameObject.Destroy(cellBlock);
         cellBlock = null;
+        EventSystem.OnCellDestroy.Invoke();
         return true;
     }
     ~GridCell()

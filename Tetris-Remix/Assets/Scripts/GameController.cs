@@ -1,10 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
     public GameObject gameOver;
+    public Text scoreText;
     public float InitialMoveRate;
     [SerializeField] float fallRate;
     const int GRID_HEIGHT = 20;
@@ -20,6 +21,9 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
+        scoreText.text = "0";
+        EventSystem.OnCellDestroy.AddListener(() => scoreText.text = (int.Parse(scoreText.text) + 1).ToString());
+
         grid = new Grid(GRID_HEIGHT, GRID_WIDTH);
 
         comboController = GameObject.Find("ComboController").GetComponent<ComboController>();
