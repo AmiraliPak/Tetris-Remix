@@ -1,9 +1,10 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
+    public GameObject gameOver;
     public float InitialMoveRate;
     [SerializeField] float fallRate;
     const int GRID_HEIGHT = 20;
@@ -75,6 +76,13 @@ public class GameController : MonoBehaviour
 
             case GameState.Pause:
                 DisableMovement();
+                break;
+
+            case GameState.Restart:
+                DisableMovement();
+                StopAllCoroutines();
+                grid.Destroy();
+                Start();
                 break;
         }
 
@@ -179,7 +187,7 @@ public class GameController : MonoBehaviour
         grid.Show();
         Debug.Log("GAME OVER!");
         Time.timeScale = 0;
-        // do something - retry menu?
+        gameOver.SetActive(true);
     }
 
     bool TryMoveFallingBlock(int addRow, int addCol)
@@ -209,9 +217,15 @@ public class GameController : MonoBehaviour
         fallingBlockPosition = (row, col);
         return true;
     }
+
+    public void RestartGame()
+    {
+        state = GameState.Restart;
+        
+    }
 }
 
 public enum GameState
 {
-    BlockFalling, BlockBeingPlaced, DropingNextBlock, GameOver, Pause, ComboController
+    BlockFalling, BlockBeingPlaced, DropingNextBlock, GameOver, Pause, ComboController, Restart
 }
