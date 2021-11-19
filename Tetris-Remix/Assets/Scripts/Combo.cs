@@ -1,15 +1,17 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class Combo
 {
     public abstract List<Combo> PreActivate(Grid grid, int row, int col);
     // returns other combos that get activated when this combo is activated
     
-    public abstract bool PostActivate(Grid grid);
+    public abstract bool PostActivate(Grid grid, List<Combo> combos);
     //gets called in update return false when done
     
     public abstract void InstantiateCellLabel(Transform cellBlock);
+    public abstract void SetUIText(Text text);
 }
 
 public class ExplosiveCombo : Combo
@@ -47,7 +49,7 @@ public class ExplosiveCombo : Combo
         }
     }
 
-    public override bool PostActivate(Grid grid)
+    public override bool PostActivate(Grid grid, List<Combo> combos)
     {
         if(isDone) return false;
 
@@ -79,5 +81,10 @@ public class ExplosiveCombo : Combo
     public override void InstantiateCellLabel(Transform cellBlock)
     {
         GameObject.Instantiate(labelObject, cellBlock);
+    }
+
+    public override void SetUIText(Text text)
+    {
+        return;
     }
 }
