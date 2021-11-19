@@ -192,7 +192,6 @@ public class GameController : MonoBehaviour
     void EndGame()
     {
         grid.Show();
-        Debug.Log("GAME OVER!");
         Time.timeScale = 0;
         gameOver.SetActive(true);
     }
@@ -218,7 +217,7 @@ public class GameController : MonoBehaviour
         if(!grid.TryPlaceBlock(fallingBlock, row, col))
         {
             fallingBlock.Rotate(toLeft: true);
-            Debug.Assert(grid.TryPlaceBlock(fallingBlock, row, col));
+            grid.TryPlaceBlock(fallingBlock, row, col);
             return false;
         }
         fallingBlockPosition = (row, col);

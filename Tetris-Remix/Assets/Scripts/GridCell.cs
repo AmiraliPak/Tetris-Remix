@@ -52,13 +52,10 @@ public class GridCell
     public bool Destroy()
     {
         if(cellBlock == null) return false;
-        GameObject.Destroy(cellBlock);
+        // GameObject.Destroy(cellBlock);
+        cellBlock.SetActive(false);
         cellBlock = null;
         EventSystem.OnCellDestroy.Invoke();
         return true;
-    }
-    ~GridCell()
-    {
-        Destroy();
     }
 }
