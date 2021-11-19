@@ -80,7 +80,7 @@ public abstract class ShootingCombo : Combo
 
         var targetRow = grid.Height - targetCell.y;
         var targetCol = targetCell.x;
-        GridCell nextCell = targetCell;
+        GridCell nextCell = null;
         if(Input.GetKeyDown(KeyCode.D))
         {
             nextCell = grid.FindClosestCell(
@@ -123,20 +123,21 @@ public abstract class ShootingCombo : Combo
             else nextCell = grid.FindClosestCell(
                 targetRow, targetCol, (row, col) => true
                 );
+            if(nextCell == null) targetCell = null;
         }
 
-        targetCell = nextCell;
-        if(targetCell != null)
+
+        if(target == null)
         {
-            if(target != null) // targetObject not destroyed
-                target.transform.SetParent(targetCell.transform, false);
-            else
-            {
-                targetCell = grid.FindClosestCell(
+            nextCell = grid.FindClosestCell(
                 targetRow, targetCol, (row, col) => true
-                );
-                target = InstantiateTarget(targetCell.transform);
-            }
+            );
+            if(nextCell != null) target = InstantiateTarget(targetCell.transform);
+        }
+        if(nextCell != null)
+        {
+            targetCell = nextCell;
+            target.transform.SetParent(targetCell.transform, false);
         }
     }
 

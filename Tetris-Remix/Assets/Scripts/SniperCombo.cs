@@ -5,7 +5,7 @@ public class SniperCombo : ShootingCombo
 {
     static GameObject labelObject = Resources.Load("Prefabs/SniperAmmoLabel") as GameObject;
     static GameObject gunObject = Resources.Load("Prefabs/Sniper") as GameObject;
-    const int AMMO_COUNT = 50;
+    const int AMMO_COUNT = 5;
 
     public SniperCombo() : base(AMMO_COUNT) { }
 
